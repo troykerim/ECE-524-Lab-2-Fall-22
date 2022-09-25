@@ -4,20 +4,19 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity fifo is
     generic (
-        ADDR_WIDTH : integer := 8;
+        ADDR_WIDTH : integer := 4;
         DATA_WIDTH : integer := 8
         );
     Port(
-        clk, rst : in std_logic;
-        rd, wr : in std_logic;
-        w_data : in std_logic_vector(DATA_WIDTH-1 downto 0);
-        empty : out std_logic;
-        full : out std_logic;
-        r_data : out std_logic_vector (DATA_WIDTH-1 downto 0);
-        
-        word_count : out unsigned(DATA_WIDTH-1 downto 0);
+        clk, rst     : in std_logic;
+        rd, wr       : in std_logic;
+        w_data       : in std_logic_vector(DATA_WIDTH-1 downto 0);
+        empty        : out std_logic;
+        full         : out std_logic;
+        r_data       : out std_logic_vector (DATA_WIDTH-1 downto 0);
+        w_count      : out std_logic_vector(ADDR_WIDTH downto 0); --5 bit, to include #16
         almost_empty : out std_logic;
-        almost_full : out std_logic
+        almost_full  : out std_logic
         );
 end fifo;
 
@@ -43,7 +42,7 @@ ctrl_unit : entity work.fifo_ctrl(Behavioral)
         full => full_tmp,
         w_addr => w_addr,
         r_addr => r_addr,
-        word_count => word_count,
+        w_count => w_count,
         almost_empty => almost_empty,
         almost_full => almost_full
         );
